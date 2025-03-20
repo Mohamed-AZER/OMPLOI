@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجدول الزمني للدروس - شهر ونصف</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>الجدول الزمني للدروس - شهر ونصف</h1>
+
+        <!-- نموذج اختيار الأسبوع والمادة -->
+        <div class="input-group">
+            <label for="week">اختر الأسبوع:</label>
+            <select id="week">
+                <option value="week1">الأسبوع 1</option>
+                <option value="week2">الأسبوع 2</option>
+                <option value="week3">الأسبوع 3</option>
+                <option value="week4">الأسبوع 4</option>
+                <option value="week5">الأسبوع 5</option>
+                <option value="week6">الأسبوع 6</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="subject">اختر المادة:</label>
+            <select id="subject">
+                <option value="الفيزياء">الفيزياء</option>
+                <option value="الكيمياء">الكيمياء</option>
+                <option value="الرياضيات">الرياضيات</option>
+                <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+                <option value="الفلسفة">الفلسفة</option>
+                <option value="علوم الحياة والأرض">علوم الحياة والأرض</option>
+            </select>
+        </div>
+        <button class="btn" onclick="loadSchedule()">عرض الجدول</button>
+
+        <!-- عرض الجدول الزمني -->
+        <h2>الجدول الزمني</h2>
+        <table id="scheduleTable">
+            <thead>
+                <tr>
+                    <th>اليوم</th>
+                    <th>الوقت</th>
+                    <th>الدرس</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- يتم إضافة الصفوف هنا بواسطة JavaScript -->
+            </tbody>
+        </table>
+    </div>
+<script>
+    // بيانات الدروس لـ 6 أسابيع
+const scheduleData = {
+    week1: {
+        الفيزياء: [
+            { day: "السبت", time: "19:00", lesson: "الموجات الميكانيكية المتوالية" },
+            { day: "الثلاثاء", time: "19:00", lesson: "الموجات الميكانيكية المتوالية الدورية" },
+            { day:"الخميس", time:"19:00", lesson: "انتشار مـوجة ضوئية"}
+
+        ],
+        الكيمياء: [
+            { day: "السبت", time: "21:30", lesson: "التحولات السريعة والتحولات البطيئة" },
+            { day: "الثلاثاء", time: "21:30", lesson: "التتبع الزمني لتحول كيميائي - سرعة التفاعل" }
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "19:00", lesson: "النهايات والاتصال" },
+            { day: "الأربعاء", time: "19:00", lesson: "الاشتقاق" }
+        ],
+        "اللغة الإنجليزية": [
+            { day: "الأحد", time: "22:30", lesson: "Units" },
+            { day: "الأربعاء", time: "22:30", lesson: "Lessons" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "19:00", lesson: "مجزوءة الوضع البشري" },
+            { day: "الخميس", time: "21:00", lesson: "مجزوءة الوضع البشري" }
+        ]
+    },
+    week2: {
+        الفيزياء: [
+            { day: "السبت", time: "19:00", lesson: "قوانين نيوتن" },
+            { day: "الثلاثاء", time: "19:00", lesson: "الحركات المستوية / السقوط الرأسي لجسم صلب"},
+            {day:"الخميس", time:"19:00", lesson:"  حركة دوران جسم صلب حول محور ثابت / الأقمار الصناعية والكواكب"}
+    ],
+        الكيمياء: [
+            { day: "السبت", time: "21:30", lesson: "المعايرة الحمضية القاعدية" },
+            { day: "الثلاثاء", time: "21:30", lesson: "تفاعلات الأسترة والحلمأة" }
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "19:00", lesson: "دراسة الدوال وتمثيلها المبياني" },
+            { day: "الأربعاء", time: "19:00", lesson: "تمرين تطبيقي" }
+        ],
+        "اللغة الإنجليزية": [
+            { day: "الأحد", time: "21:30", lesson: "Summaries" },
+            { day: "الأربعاء", time: "21:30", lesson: "Functions" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "19:00", lesson: "امتحان وطني" },
+            { day: "الخميس", time: "21:00", lesson: " مجزوءة المعرفة" }
+        ]
+    },
+    week3: {
+        الفيزياء: [
+            { day: "السبت", time: "19:00", lesson: " RC,RL,RLC المجالات الكهربائية" },
+            { day: "الثلاثاء", time: "19:00", lesson:"الموجات الكهرمغنطيسية ونقل المعلومات - تضمين الوسع" }
+
+        ],
+        الكيمياء: [
+            { day: "السبت", time: "21:30", lesson: "التحولات الكيميائية التي تحدث في منحيين" },
+            { day: "الثلاثاء", time: "21:30", lesson: "حالة توازن مجموعة كيميائية" }
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "19:00", lesson: "الدوال الأصلية" },
+            { day: "الأربعاء", time: "19:00", lesson: "الدوال اللوغاريتمية" }
+        ],
+        "اللغة الإنجليزية": [
+            { day: "الأحد", time: "22:00", lesson: "Functions" },
+            { day: "الأربعاء", time: "22:00", lesson: "Grammar" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "19:00", lesson: "مجزوءة المعرفة" },
+            { day: "الخميس", time: "19:00", lesson: "امتحان وطني " }
+        ]
+    },
+    week4: {
+        الفيزياء: [
+            { day: "السبت", time: "19:00", lesson:"التناقص الأشعاعي" },
+            { day: "الثلاثاء", time: "19:00", lesson:"النوى والكتلة والطاقة"}
+        ],
+        الكيمياء: [
+            { day: "السبت", time: "22:30", lesson: "التحولات الكيميائية المقرونة بالتفاعلات حمض قاعدة" },
+            { day: "الثلاثاء", time: "22:30", lesson: "التطور التلقائي لمجموعة كيميائية" }
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "19:00", lesson: "الأعداد العقدية (الجزء الأول)" },
+            { day: "الأربعاء", time: "19:00", lesson: "الأعداد العقدية (الجزء الثاني) " }
+        ],
+        "اللغة الإنجليزية": [
+            { day: "الأحد", time: "21:30", lesson: "Writing" },
+            { day: "الأربعاء", time: "21:30", lesson: "Chek your progress" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "20:00", lesson: "مجزوءة الأخلاق" },
+            { day: "الخميس", time: "20:00", lesson: "مجزوءة الأخلاق" }
+        ]
+    },
+    week5: {
+        الفيزياء: [
+            { day: "السبت", time: "19:00", lesson: "حيود الضوء بواسطة شبكة" },
+            { day: "الثلاثاء", time: "19:00", lesson: "المجموعات الميكانيكية المتذبذبة" }
+        ],
+        الكيمياء: [
+            { day: "السبت", time: "21:30", lesson: "التحولات التلقائية في الأعمدة وتحصيل الطاقة" },
+            { day: "الثلاثاء", time: "21:30", lesson: "التحولات القسرية والتحليل الكهربائي" }
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "19:00", lesson: "المعادلات التفاضلية" },
+            { day: "الأربعاء", time: "19:00", lesson: " الحساب التكاملي" }
+        ],
+      " اللغة الإنجليزية": [
+            { day: "الأحد", time: "22:30", lesson: "Chek your progress" },
+            { day: "الأربعاء", time: "21:30", lesson: "Chek your progress" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "22:00", lesson: "مجزوءة السياسة" },
+            { day: "الخميس", time: "23:00", lesson: "امتحان وطني" }
+        ]
+    },
+    week6: {
+        الفيزياء: [
+            { day: "السبت", time: "20:00", lesson: "المظاهر الطاقية للتذبذبات الميكانيكية" },
+            { day: "الثلاثاء", time: "21:00", lesson: "الذرة وميكانيك نيوتن" }
+            ],
+        الكيمياء: [
+             { day: "الثلاثاء", time: "23:30", lesson: " التحكم في تطور المجموعات الكيميائية بتغيير متفاعل " },
+             { day: "السبت", time: "23:30", lesson:" امتحان وطني سابق "}
+          
+        ],
+        الرياضيات: [
+            { day: "الأحد", time: "20:00", lesson: "الهندسة الفضائية (الجداء السلمي في الفضاء - الفلكة - الجداء المتجهي)" },
+            { day: "الأربعاء", time: "21:00", lesson: "حساب الاحتمالات " }
+        ],
+        "اللغة الإنجليزية": [
+            { day: "الأحد", time: "22:30", lesson: "National exams with answers (Sciences)" },
+            { day: "الأربعاء", time: "23:00", lesson: "National exams with answers (Sciences)" }
+        ],
+        الفلسفة: [
+            { day: "الاثنين", time: "21:00", lesson: "مجزوءة السياسة" },
+            { day: "الخميس", time: "20:00", lesson: "مراجعة شاملة للمقرر" }
+        ]
+    }
+};
+
+// دالة لتحميل الجدول الزمني
+function loadSchedule() {
+    const week = document.getElementById('week').value;
+    const subject = document.getElementById('subject').value;
+    const tableBody = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ""; // مسح الجدول الحالي
+
+    const lessons = scheduleData[week][subject];
+
+    if (lessons && lessons.length > 0) {
+        lessons.forEach(lesson => {
+            const newRow = tableBody.insertRow();
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+
+            cell1.textContent = lesson.day;
+            cell2.textContent = lesson.time;
+            cell3.textContent = lesson.lesson;
+        });
+    } else {
+        const newRow = tableBody.insertRow();
+        const cell = newRow.insertCell(0);
+        cell.colSpan = 3;
+        cell.textContent = "لا توجد دروس لهذا الأسبوع والمادة المحددة.";
+    }
+}
+</script>
+</body>
+</html>
